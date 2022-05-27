@@ -88,6 +88,7 @@ const dispatch = useDispatch();
         >
           Submit
         </Button>
+        <hr></hr>
         <Button
           onClick={clearForm}
           variant="contained"

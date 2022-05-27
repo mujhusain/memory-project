@@ -26,11 +26,11 @@ function App() {
       </AppBar>
       <Grow in>
         <Container>
-          <Grid container justify="space-between">
+          <Grid container justifyContent="space-between">
             <Grid item xs={12} sm={7}>
               <Posts />
             </Grid>
-            <Grid item xs={12} sm={4}>
+            <Grid item xs={12} sm={3}>
               <Form />
             </Grid>
           </Grid>
