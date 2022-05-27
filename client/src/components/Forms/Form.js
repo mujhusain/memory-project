@@ -2,9 +2,13 @@ import React, { useState } from "react";
 import useStyles from "./styles";
 import { TextField, Typography, Paper, Button } from "@material-ui/core";
 import FileBase from "react-file-base64";
+import {useDispatch} from "react-redux";
+import { createPost } from "../../actions/posts";
+
 
 function Form() {
   const classes = useStyles();
+const dispatch = useDispatch();
 
   const [postData, setPostData] = useState({
     creater: "",
@@ -18,20 +22,20 @@ function Form() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(postData);
+    dispatch(createPost(postData));
   };
 
   const clearForm=()=>{}
 
   return (
-    <Paper className={classes.paper}>
+    <Paper className={`${classes.paper}, ${classes.root}`}>
       <form
         autoComplete="off"
         noValidate
         className={classes.form}
         onSubmit={handleSubmit}
       >
-        <Typography variant="h5">Create Memory</Typography>
+        <Typography variant="h6">Create Memory</Typography>
         <TextField
           name="creater"
           variant="outlined"
@@ -84,7 +88,6 @@ function Form() {
         >
           Submit
         </Button>
-        <hr></hr>
         <Button
           onClick={clearForm}
           variant="contained"

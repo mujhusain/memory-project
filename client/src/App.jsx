@@ -5,7 +5,7 @@ import memories from "./images/memories.png";
 import Posts from "./components/Posts/Posts";
 import Form from "./components/Forms/Form";
 import useStyles from './styles';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {getPosts} from './actions/posts';
 
 function App() {
