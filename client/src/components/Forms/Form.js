@@ -1,31 +1,52 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import useStyles from "./styles";
 import { TextField, Typography, Paper, Button } from "@material-ui/core";
 import FileBase from "react-file-base64";
-import {useDispatch} from "react-redux";
-import { createPost } from "../../actions/posts";
+import {useDispatch, useSelector} from "react-redux";
+import { createPost, updatePost } from "../../actions/posts";
 
 
-function Form() {
+function Form({currentId, setCurrentId}) {
   const classes = useStyles();
 const dispatch = useDispatch();
 
   const [postData, setPostData] = useState({
-    creater: "",
+    creator: "",
     title: "",
     message: "",
     tags: "",
     selectedFile: "",
   });
+  const post=useSelector(state=>currentId?state.posts.find(post=>post._id===currentId):null);
+
+  useEffect(() => {
+    if (post) {
+      setPostData(post);
+    }},[post]);
+
   const handleChange = (event) => {
     setPostData({ ...postData, [event.target.name]: event.target.value });
-  };
+  }; 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createPost(postData));
+    if(currentId){
+      dispatch(updatePost(currentId,postData));
+    }else{
+      dispatch(createPost(postData));
+    }
+    clearForm();
   };
 
-  const clearForm=()=>{}
+  const clearForm=()=>{
+    setCurrentId(null);
+    setPostData({
+      creator: "",
+      title: "",
+      message: "",
+      tags: "",
+      selectedFile: "",
+    });
+  }
 
   return (
     <Paper className={`${classes.paper}, ${classes.root}`}>
@@ -35,13 +56,13 @@ const dispatch = useDispatch();
         className={classes.form}
         onSubmit={handleSubmit}
       >
-        <Typography variant="h6">Create Memory</Typography>
+        <Typography variant="h6">{currentId?'Editing':'Creating'} Memory</Typography>
         <TextField
-          name="creater"
+          name="creator"
           variant="outlined"
-          label="Creater"
+          label="Creator"
           fullWidth
-          value={postData.creater}
+          value={postData.creator}
           onChange={handleChange}
         />
         <TextField
@@ -88,7 +109,6 @@ const dispatch = useDispatch();
         >
           Submit
         </Button>
-        <hr></hr>
         <Button
           onClick={clearForm}
           variant="contained"

@@ -1,3 +1,5 @@
+const mongoose = require("mongoose");
+
 const PostMessage = require("../models/postsMessage");
 
 const getPosts = async (req, res) => {
@@ -17,8 +19,20 @@ const createPost = async (req, res) => {
     await PostMessage.create(newPost);
     res.status(201).send(newPost);
   } catch (err) {
-    res.status(409).json({ message: err.message });
+    res.status(404).json({ message: err.message });
   }
 };
 
-module.exports = { getPosts, createPost };
+const updatePost = async (req, res) => {
+  const { id: _id } = req.params;
+  const post = req.body;
+  if (!mongoose.Types.ObjectId.isValid(_id)){
+    return res.status(400).send({ message: "invalid id" });
+  }
+  const updatedPost = await PostMessage.findByIdAndUpdate(_id, {...post,_id}, {
+    new: true,
+  });
+  res.json(updatedPost);
+};
+
+module.exports = { getPosts, createPost, updatePost };
