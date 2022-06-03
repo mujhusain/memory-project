@@ -5,7 +5,6 @@ const PostMessage = require("../models/postsMessage");
 const getPosts = async (req, res) => {
   try {
     const postMessage = await PostMessage.find();
-    console.log(postMessage);
     res.status(200).json(postMessage);
   } catch (err) {
     res.status(404).json({ message: err.message });
@@ -26,13 +25,38 @@ const createPost = async (req, res) => {
 const updatePost = async (req, res) => {
   const { id: _id } = req.params;
   const post = req.body;
-  if (!mongoose.Types.ObjectId.isValid(_id)){
+  if (!mongoose.Types.ObjectId.isValid(_id)) {
     return res.status(400).send({ message: "invalid id" });
   }
-  const updatedPost = await PostMessage.findByIdAndUpdate(_id, {...post,_id}, {
-    new: true,
-  });
+  const updatedPost = await PostMessage.findByIdAndUpdate(
+    _id,
+    { ...post, _id },
+    {
+      new: true,
+    }
+  );
   res.json(updatedPost);
 };
+const deletePost = async (req, res) => {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).send({ message: "invalid id" });
+  }
+  const updatedPost = await PostMessage.findByIdAndDelete(id);
+  res.status(200).json({ message: "Post deleted successfully" });
+};
 
-module.exports = { getPosts, createPost, updatePost };
+const likePost = async (req, res) => {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).send({ message: "invalid id" });
+  }
+  const post = await PostMessage.findById(id);
+  const updatedPost = await PostMessage.findByIdAndUpdate(
+    id,
+    { likeCount: post.likeCount + 1 },
+    { new: true }
+  );
+  res.status(201).json(updatedPost);
+};
+module.exports = { getPosts, createPost, updatePost, deletePost, likePost };

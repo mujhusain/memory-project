@@ -25,7 +25,7 @@ const dispatch = useDispatch();
     }},[post]);
 
   const handleChange = (event) => {
-    setPostData({ ...postData, [event.target.name]: event.target.value });
+        setPostData({ ...postData, [event.target.name]: event.target.value });
   }; 
   const handleSubmit = (e) => {
     e.preventDefault();
