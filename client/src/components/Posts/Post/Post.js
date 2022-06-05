@@ -35,7 +35,7 @@ function Post({post, setCurrentId}) {
     <CardActions className={classes.cardActions}>
       <Button size='small' color="primary" onClick={()=>dispatch(likePost(post._id))}>
         <ThumbUpIcon fontSize="small" />
-        Like {post.likeCount}
+        &nbsp;Like {post.likeCount}
       </Button>
       <Button size='small' color="primary" onClick={()=>dispatch(deletePost(post._id))}>
         <DeleteIcon fontSize="small" />
