@@ -1,24 +1,18 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 
 export default makeStyles((theme) => ({
-  root: {
-    '& .MuiTextField-root': {
-      margin: theme.spacing(0.5),
-    },
-  },
   paper: {
-    padding: theme.spacing(2),
+    padding: "20px",
   },
   form: {
-    display: 'flex',
-    flexWrap: 'wrap',  
-    justifyContent: 'center',
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "center",
   },
   fileInput: {
-    width: '97%',
-    margin: '10px 0',
+    margin: "10px 2px",
   },
   buttonSubmit: {
-    marginBottom: 10,
+    marginBottom: "10px",
   },
 }));
