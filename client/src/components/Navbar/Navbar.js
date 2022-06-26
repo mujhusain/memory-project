@@ -4,14 +4,14 @@ import memories from "../../images/memories.png";
 import useStyles from "./styles";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import {useDispatch} from 'react-redux';
-import {useNavigate, useLocation} from "react-router-dom"
+import { useDispatch } from "react-redux";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function Navbar() {
   const classes = useStyles();
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location=useLocation();
+  const location = useLocation();
 
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
   console.log(user);
@@ -22,11 +22,11 @@ function Navbar() {
     setUser(JSON.parse(localStorage.getItem("profile")));
   }, [location]);
 
-  const logOut = (user) =>{
-    dispatch({type: "LOGOUT"});
-    navigate("/")
+  const logOut = (user) => {
+    dispatch({ type: "LOGOUT" });
+    navigate("/");
     setUser(null);
-  }
+  };
   return (
     <AppBar className={classes.appBar} position="static" color="inherit">
       <div className={classes.brandContainer}>
@@ -57,7 +57,7 @@ function Navbar() {
               {user.result.name.charAt(0)}
             </Avatar>
             <Typography className={classes.userName} varient="h6">
-              {user.result.name}
+              {user.result.name ? `hello ${user.result.name}` : null}
             </Typography>
             <Button
               variant="contained"

@@ -32,7 +32,7 @@ function Form({ currentId, setCurrentId }) {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    const {creator, title, message,}=postData;
+    const {creator, title}=postData;
     if(creator.trim()==='' || title.trim()==='') return;
 
     if (currentId) {
