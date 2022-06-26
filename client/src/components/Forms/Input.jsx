@@ -8,7 +8,10 @@ function Input({
   autoFocus,
   onChange,
   half,
-  value
+  value,
+  required,
+  multiline,
+  rows
 }) {
   return (
     <Grid item xs={12} sm={half ? 6 : 12}>
@@ -21,6 +24,9 @@ function Input({
         fullWidth
         autoFocus={autoFocus}
         type={type}
+        required={required}
+        multiline={multiline}
+        rows={rows}
       />
     </Grid>
   );

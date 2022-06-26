@@ -1,16 +1,29 @@
-export const posts= (posts = [], action) => {
+import {
+  CREATE,
+  UPDATE,
+  DELETE,
+  FETCH_ALL,
+  LIKE,
+} from "../constants/actionTypes";
+const posts = (posts = [], action) => {
   switch (action.type) {
-    case "FETCH_ALL":
+    case FETCH_ALL:
       return action.payload.data;
-    case "CREATE_POST":
+    case CREATE:
       return [...posts, action.payload];
-    case "UPDATE_POST":
-      return posts.map((post) =>post._id === action.payload._id ? action.payload : post);
-    case "LIKE_POST":
-      return posts.map((post) =>post._id === action.payload._id ? action.payload : post); 
-    case "DELETE_POST":
+    case UPDATE:
+      return posts.map((post) =>
+        post._id === action.payload._id ? action.payload : post
+      );
+    case LIKE:
+      return posts.map((post) =>
+        post._id === action.payload._id ? action.payload : post
+      );
+    case DELETE:
       return posts.filter((post) => post._id !== action.payload);
     default:
       return posts;
   }
 };
+
+export default posts;

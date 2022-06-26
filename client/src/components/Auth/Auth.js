@@ -6,20 +6,56 @@ import {
   Paper,
   Typography,
 } from "@material-ui/core";
+
 import React, { useState } from "react";
 import useStyles from "./styles";
 import LockOutLinedIcon from "@material-ui/icons/LockOpenOutlined";
 import Input from "./Input";
+import GoogleLogin from "./GoogleLogin";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+
+import {signin,signup} from "../../actions/auth"
+
+const initial = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+};
 
 function Auth() {
-  const [showPassword, setShowPassword] = useState(false);
   const classes = useStyles();
-  const state = null;
-  const isSignup = false;
-  const handleSubmit = () => {};
-  const handleChange = () => {};
+  const navigate= useNavigate();
+  const dispatch = useDispatch();
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [isSignup, setisSignup] = useState(false);
+  const [formData, setFormData] = useState(initial);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    if(isSignup) {
+      dispatch(signup(formData,navigate));
+    }else{
+      dispatch(signin(formData,navigate));
+    }
+  };
+
+  const handleChange = (e) => {
+    setFormData({...formData,[e.target.name]: e.target.value});
+  };
+
   const handleShowPassword = () =>
     setShowPassword((prevShowPassword) => !prevShowPassword);
+  
+    const switchMode = () => {
+    setisSignup((isSignup) => !isSignup);
+    setShowPassword(false);
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <Paper className={classes.paper} elevation={3}>
@@ -33,25 +69,25 @@ function Auth() {
             {isSignup && (
               <>
                 <Input
-                  name="firtname"
+                  name="firstName"
                   label="First Name"
-                  handlChange={handleChange}
+                  onChange={handleChange}
                   autoFocus
                   half
                 />
                 <Input
-                  name="lastname"
+                  name="lastName"
                   label="Last Name"
-                  handlChange={handleChange}
+                  onChange={handleChange}
                   half
                 />
               </>
             )}
-            <Input name="email" label="Email Id" handlChange={handleChange} />
+            <Input name="email" label="Email Id" onChange={handleChange} />
             <Input
               name="password"
               label="Password"
-              handlChange={handleChange}
+              onChange={handleChange}
               type={showPassword ? "text" : "password"}
               handleShowPassword={handleShowPassword}
             />
@@ -59,19 +95,33 @@ function Auth() {
               <Input
                 name="confirmPassword"
                 label="Confirm Password"
-                handleChange={handleChange}
+                onChange={handleChange}
                 type="password"
               />
             )}
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              {isSignup ? "Sign Up" : "Sign In"}
-            </Button>
+            <Grid item xs={12}>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                {isSignup ? "Sign Up" : "Sign In"}
+              </Button>
+            </Grid>
+
+            <Grid item xs={12}>
+              <GoogleLogin />
+            </Grid>
+
+            <Grid justify="center" container>
+              <Button onClick={switchMode}>
+                {isSignup
+                  ? "Already have an account! Click to Sign In"
+                  : "Account not Exists! Click to Sign Up"}
+              </Button>
+            </Grid>
           </Grid>
         </form>
       </Paper>
