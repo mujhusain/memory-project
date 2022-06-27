@@ -20,7 +20,7 @@ export const signup = (formData, navigate) => async (dispatch) => {
 
     dispatch({type:AUTH,data})
 
-    navigate("/");
+    navigate("/");  
   } catch (err) {
     console.log(err);
   }

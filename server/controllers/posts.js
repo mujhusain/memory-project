@@ -13,7 +13,7 @@ const getPosts = async (req, res) => {
 
 const createPost = async (req, res) => {
   const post = req.body;
-  const newPost = new PostMessage(post);
+  const newPost = new PostMessage({...post, creator: req.userId, createdAt: new Date().toISOString()});
   try {
     await PostMessage.create(newPost);
     res.status(201).send(newPost);

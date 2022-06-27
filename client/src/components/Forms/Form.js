@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import useStyles from "./styles";
-import {Typography, Paper, Button, Grid } from "@material-ui/core";
+import { Typography, Paper, Button, Grid } from "@material-ui/core";
 import FileBase from "react-file-base64";
 import { useDispatch, useSelector } from "react-redux";
 import { createPost, updatePost } from "../../actions/posts";
@@ -9,9 +9,9 @@ import Input from "./Input";
 function Form({ currentId, setCurrentId }) {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const user = JSON.parse(localStorage.getItem("profile"));
 
   const [postData, setPostData] = useState({
-    creator: "",
     title: "",
     message: "",
     tags: "",
@@ -32,13 +32,12 @@ function Form({ currentId, setCurrentId }) {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    const {creator, title}=postData;
-    if(creator.trim()==='' || title.trim()==='') return;
 
-    if (currentId) {
-      dispatch(updatePost(currentId, postData));
+    if (currentId===0) {
+      console.log(user.result.name)
+      dispatch(updatePost(currentId, { ...postData, name: user.result.name }));
     } else {
-      dispatch(createPost(postData));
+      dispatch(createPost({ ...postData, name: user.result.name }));
     }
     clearForm();
   };
@@ -46,13 +45,22 @@ function Form({ currentId, setCurrentId }) {
   const clearForm = () => {
     setCurrentId(null);
     setPostData({
-      creator: "",
       title: "",
       message: "",
       tags: "",
       selectedFile: "",
     });
   };
+
+  if (user===null) {
+    return (
+      <Paper className={classes.paper}>
+        <p>
+          Please LogIn first to create your memories and to like others memories.
+        </p>
+      </Paper>
+    );
+  }
 
   return (
     <Paper className={classes.paper}>
@@ -66,14 +74,6 @@ function Form({ currentId, setCurrentId }) {
           {currentId ? "Editing" : "Creating"} Memory
         </Typography>
         <Grid container spacing={1}>
-          <Input
-            name="creator"
-            label="Creator"
-            value={postData.creator}
-            onChange={handleChange}
-            autoFocus
-            required={true}
-            />
           <Input
             name="title"
             label="Title"
@@ -101,7 +101,7 @@ function Form({ currentId, setCurrentId }) {
               type="file"
               multiple={false}
               onDone={({ base64 }) =>
-              setPostData({ ...postData, selectedFile: base64 })
+                setPostData({ ...postData, selectedFile: base64 })
               }
             />
           </div>
@@ -113,7 +113,7 @@ function Form({ currentId, setCurrentId }) {
             value="submit"
             size="large"
             fullWidth
-            >
+          >
             Submit
           </Button>
           <Button
@@ -122,10 +122,10 @@ function Form({ currentId, setCurrentId }) {
             color="secondary"
             size="small"
             fullWidth
-            >
+          >
             Clear
           </Button>
-            </Grid>
+        </Grid>
       </form>
     </Paper>
   );

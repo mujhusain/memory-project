@@ -8,7 +8,7 @@ const {
   likePost,
 } = require("../controllers/posts");
 
-const auth = require("../middleware/auth");
+const auth = require("../middleware/auth.js");
 
 router.get("/", getPosts);
 router.post("/", auth, createPost);
