@@ -6,8 +6,7 @@ const Likes = ({ post }) => {
   const user = JSON.parse(localStorage.getItem("profile"));
   if (post.likes.length > 0) {
     return post.likes.find(
-        // making permanent true becouse chain ? is not working
-      (like) => like === (true || user.result._id || user.result.googleId)
+      (like) => like === ((user!==null) && (user.result._id || user.result.googleId))
     ) ? (
       <>
         <ThumbUpAltIcon fontSize="small" />

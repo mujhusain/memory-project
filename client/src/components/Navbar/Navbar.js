@@ -24,7 +24,6 @@ function Navbar() {
   };
 
   useEffect(() => {
-    // const token = user?.token;
     if(user){
       const decodedToken=decode(user.token);
       if(decodedToken.exp *1000 < new Date().getTime()) logOut()

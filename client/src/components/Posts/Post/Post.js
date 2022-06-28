@@ -9,8 +9,6 @@ import {
   Typography,
 } from "@material-ui/core";
 
-// import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
-// import ThumbUpAltOutlined from "@material-ui/icons/ThumbUpAltOutlined";
 
 import DeleteIcon from "@material-ui/icons/Delete";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
@@ -23,7 +21,6 @@ function Post({ post, setCurrentId }) {
   const dispatch = useDispatch();
   const classes = useStyles();
   const user = JSON.parse(localStorage.getItem("profile"));
-
 
   return (
     <Card className={classes.card}>
@@ -38,26 +35,26 @@ function Post({ post, setCurrentId }) {
           {moment(post.createdAt).fromNow()}
         </Typography>
       </div>
-      
-{/* this is to hide edit button to other if he is not creator of post */}
 
-      {/* {(user ?.result ?._id === post ?.creator || user ?.result ?.googleId === post ?.creator) && ( */}
-      {true && (
-      <div className={classes.overlay2}>
-        <Button
-          style={{ color: "white" }}
-          size="small"
-          onClick={() => {
-            setCurrentId(post._id);
-          }}
-        >
-          <MoreHorizIcon fontSize="small" />
-        </Button>
-      </div>
-      )}
+
+      {user !== null &&
+        (user.result._id === post.creator ||
+          user.result.googleId === post.creator) && (
+          <div className={classes.overlay2}>
+            <Button
+              style={{ color: "white" }}
+              size="small"
+              onClick={() => {
+                setCurrentId(post._id);
+              }}
+            >
+              <MoreHorizIcon fontSize="small" />
+            </Button>
+          </div>
+        )}
       <div className={classes.details}>
         <Typography variant="body2" color="textSecondary">
-          {post.tags.map((tags) => `#${tags} `)}
+          {post.tags.map((tag) => `#${tag} `)}
         </Typography>
       </div>
       <CardContent>
@@ -83,17 +80,18 @@ function Post({ post, setCurrentId }) {
           <Likes post={post} />
         </Button>
 
-        {/* {(user ?.result ?._id === post ?.creator || user ?.result ?.googleId === post ?.creator) && ( */}
-        {true && ( //test perpose fixed to true
-          <Button
-            size="small"
-            color="primary"
-            onClick={() => dispatch(deletePost(post._id))}
-          >
-            <DeleteIcon fontSize="small" />
-            Delete
-          </Button>
-        )}
+        {user !== null &&
+          (user.result._id === post.creator ||
+            user.result.googleId === post.creator) && (
+            <Button
+              size="small"
+              color="primary"
+              onClick={() => dispatch(deletePost(post._id))}
+            >
+              <DeleteIcon fontSize="small" />
+              Delete
+            </Button>
+          )}
       </CardActions>
     </Card>
   );

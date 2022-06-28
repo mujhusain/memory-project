@@ -11,7 +11,7 @@ export default makeStyles({
     border: 'solid',
   },
   fullHeightCard: {
-    height: '70%',
+    height: '100%',
   },
   card: {
     display: 'flex',
@@ -38,18 +38,17 @@ export default makeStyles({
   },
   details: {
     display: 'flex',
+    padding: '0 10px',
     justifyContent: 'space-between',
-    margin: '4px 10px',
   },
   title: {
-    padding: '0px 10px',
   },
-  message: {
-    padding: '0 10px',
-    fontSize: '0.8rem',
+  message:{
+minHeight:'50px',
+overflow: 'hidden',
   },
   cardActions: {
-    padding: '0 16px 8px 16px',
+    padding: '0 10px 8px 10px',
     display: 'flex',
     justifyContent: 'space-between',
   },
