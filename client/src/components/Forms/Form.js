@@ -14,7 +14,7 @@ function Form({ currentId, setCurrentId }) {
   const [postData, setPostData] = useState({
     title: "",
     message: "",
-    tags: "",
+    tags: '',
     selectedFile: "",
   });
   const post = useSelector((state) =>
@@ -61,6 +61,7 @@ function Form({ currentId, setCurrentId }) {
     );
   }
 
+
   return (
     <Paper className={classes.paper}>
       <form
@@ -91,7 +92,7 @@ function Form({ currentId, setCurrentId }) {
 
           <Input
             name="tags"
-            label="Tags (Space Separated) "
+            label="Tags (Space Separated)"
             value={postData.tags}
             onChange={handleChange}
           />

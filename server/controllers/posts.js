@@ -10,6 +10,17 @@ const getPosts = async (req, res) => {
     res.status(404).json({ message: err.message });
   }
 };
+const getPostsBySearch = async (req, res) => {
+  const {searchQuery,tags}=req.query;
+  try {
+    const title=new RegExp(searchQuery,'i')
+
+    const posts = await PostMessage.find({$or:[{title},{tags:{$in:tags.split(',')}}]});
+    res.status(200).json({data:posts});
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+};
 
 const createPost = async (req, res) => {
   const post = req.body;
@@ -25,6 +36,7 @@ const createPost = async (req, res) => {
 const updatePost = async (req, res) => {
   const { id: _id } = req.params;
   const post = req.body;
+  console.log("update",post);
   if (!mongoose.Types.ObjectId.isValid(_id)) {
     return res.status(400).send({ message: "invalid id" });
   }
@@ -73,4 +85,4 @@ const likePost = async (req, res) => {
   );
   res.status(201).json(updatedPost);
 };
-module.exports = { getPosts, createPost, updatePost, deletePost, likePost };
+module.exports = { getPosts,getPostsBySearch, createPost, updatePost, deletePost, likePost };
